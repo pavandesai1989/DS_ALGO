@@ -1,0 +1,94 @@
+----- Solution 1 --------------------
+#include<iostream>
+using namespace std;
+
+void printLeaders(int a[], int size)
+{
+    for(int i=0;i<size;i++)
+    {
+        bool leader=true;
+        
+        for(int j=i+1;j<size;j++)
+        {
+            if(a[i]<=a[j])
+            {
+                leader=false;
+                break;
+            }
+        }
+        
+        if(leader)  cout<<a[i]<<" ";
+    }
+}
+
+int main()
+{
+    int a[7] = {7,10,4,10,6,5,2};
+    printLeaders(a,7);
+    
+    return 0;
+}
+
+Time : O(N*N)
+spae :O(1)
+
+------------------------------------------------------------Efficient -------------------------
+
+#include<iostream>
+using namespace std;
+
+void printLeaders(int a[], int size)
+{
+  //last element is always a leader 
+  int curr_leader = a[size-1];
+  cout<<curr_leader<<" ";
+  
+  
+  //check if the curr ele of array is grater than current leader, if yes print and update the curr leader
+  for(int i=(size-2);i>=0;i--)
+  {
+      if(a[i]>curr_leader)
+      {
+          //update the curr leader
+          curr_leader = a[i];
+          cout<<curr_leader<<" ";
+      }
+  }
+}
+
+int main()
+{
+    int a[7] = {7,10,4,10,6,5,2};
+    printLeaders(a,7);
+    
+    return 0;
+}
+
+Time Complexity : O(n)
+Space Complexity : O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
