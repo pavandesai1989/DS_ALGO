@@ -1,0 +1,28 @@
+#include<iostream>
+using namespace std;
+
+void LeftRotateByOne(int a[],int d)
+{
+     int temp = a[0];
+     
+     for(int i=1;i<d;i++)
+        a[i-1]=a[i];
+        
+    a[d-1]=temp; //imp its not a[d] else seg fault 
+}
+
+int main()
+{
+    int a[6] = {1,2,3,4,5,6};
+    int size = 6;
+    LeftRotateByOne(a,6);
+    
+    cout<<endl;
+    for(int j=0;j<size;j++)
+        cout<<a[j]<<" ";
+    
+    return 0;
+}
+
+Time complexity : O(n)
+Space complexity :O(1) //constant space 
