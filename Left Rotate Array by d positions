@@ -1,0 +1,129 @@
+------------ Solution 1:  use LeftRotateByOne d times -----------------------------------------
+
+#include<iostream>
+using namespace std;
+
+void LeftRotateByOne(int a[],int d)
+{
+     int temp = a[0];
+     
+     for(int i=1;i<d;i++)
+        a[i-1]=a[i];
+        
+        a[d-1]=temp;
+}
+
+int main()
+{
+    int a[6] = {1,2,3,4,5,6};
+    int pos;
+    cin>>pos;  //num of pos to rotate
+    
+    cout<<"original array is "<<endl;
+    for(int i=0;i<6;i++)
+       cout<<a[i]<<" ";
+       
+    cout<<endl;
+    for(int j=0;j<pos;j++)
+      LeftRotateByOne(a,6);
+      
+    cout<<"array after "<<pos<<" position rotation is "<<endl;
+    for(int i=0;i<6;i++)
+       cout<<a[i]<<"  ";
+    
+    return 0;
+}
+
+Time Complexity : O(n*d)  //we are calling O(n) d times 
+Space Complexity : O(1) //constant space
+
+------------------------- Solution 2 Using extra space --------------------------------------------
+#include<iostream>
+using namespace std;
+
+void LeftRotateBydPositions(int a[],int size,int pos)
+{
+    int temp[pos];
+    for(int i=0;i<pos;i++)
+       temp[i]=a[i];
+       
+    for(int i=pos;i<size;i++)
+       a[i-pos]=a[i];
+       
+    //put ele from temp in ori array
+    for(int i=0;i<pos;i++)
+       a[size-pos+i] = temp[i];
+    
+}
+
+
+int main()
+{
+    int a[6] = {1,2,3,4,5,6};
+    int pos;
+    cin>>pos;  //num of pos to rotate
+    
+    cout<<"original array is "<<endl;
+    for(int i=0;i<6;i++)
+       cout<<a[i]<<" ";
+       
+    cout<<endl;
+    LeftRotateBydPositions(a,6,pos);
+      
+    cout<<"array after "<<pos<<" position rotation is "<<endl;
+    for(int i=0;i<6;i++)
+       cout<<a[i]<<"  ";
+    
+    return 0;
+}
+
+Time complexity : O(n)
+Space complexity : O(d) //as we using auxillary space to store the d elements
+
+------------------------ Solution 3: In place Rotation ( Efficient Solution ) -----------------------------------
+#include<iostream>
+using namespace std;
+void reverse(int a[],int start,int end)
+{
+    while(start<end)
+    {
+        swap(a[start],a[end]);
+        start++;
+        end--;
+    }
+}
+
+void LeftRotateBydPositions(int a[],int size,int pos)
+{
+    reverse(a,0,pos-1);   //reverse first pos elements
+    
+    reverse(a,pos,size-1); // reverse remaining part
+    
+    reverse(a,0,size-1); //reverse the whole array
+}
+int main()
+{
+    int a[6] = {1,2,3,4,5,6};
+    int pos;
+    cin>>pos;  //num of pos to rotate
+    
+    cout<<"original array is "<<endl;
+    for(int i=0;i<6;i++)
+       cout<<a[i]<<" ";
+       
+    cout<<endl;
+    LeftRotateBydPositions(a,6,pos);
+      
+    cout<<"array after "<<pos<<" position rotation is "<<endl;
+    for(int i=0;i<6;i++)
+       cout<<a[i]<<"  ";
+    
+    return 0;
+}
+
+Time complexity;  O(pos) +  O(n-pos)  +  O(n) ==== total )(2n)   ie )(n)
+Space complexity : O(n)
+
+
+
+
