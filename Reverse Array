@@ -1,0 +1,100 @@
+NOTE: 
+1. Arrays are always passed by reference.
+why cant we pass arrays by value ?
+
+---------- Reverse array iterative -----------------------------------
+#include<iostream>
+using namespace std;
+
+void Reverse(int a[], int size)
+{
+    int start=0, end=size-1;
+    
+    while(start<end)
+    {
+        swap(a[start],a[end]);    //std algorithm for swap
+        start++;
+        end--;
+    }
+}
+
+int main()
+{
+    int a[10];
+    int size;
+    cin>>size;
+    
+    for(int i=0;i<size;i++)
+       cin>>a[i];
+       
+    //print array 
+    cout<<"array before reverse is "<<endl;
+    for(int i=0;i<size;i++)
+      cout<<a[i]<<"  ";
+     
+     //reverse array call
+    Reverse(a,size);
+    
+    //print reversed array
+    cout<<"reversed array is  "<<endl;
+    for(int i=0;i<size;i++)
+      cout<<a[i]<<"  ";
+    
+    return 0;
+}
+
+Time Complexity : O(n)
+
+------------------- Reverse array recursive -------------------------------
+#include<iostream>
+using namespace std;
+
+void ReverseRecursive(int a[], int start,int end)
+{
+    if (start>=end)   //exit condition!
+       return;
+
+    swap(a[start],a[end]);
+    ReverseRecursive(a,start+1,end-1);
+}
+
+int main()
+{
+    int a[10];
+    int size,start=0;
+    cin>>size;
+    
+    for(int i=0;i<size;i++)
+       cin>>a[i];
+       
+    //print array 
+    cout<<"array before reverse is "<<endl;
+    for(int i=0;i<size;i++)
+      cout<<a[i]<<"  ";
+      
+    cout<<endl<<endl;  
+     
+     //recursive reverse array call
+    ReverseRecursive(a,start,size-1);
+    
+    //print reversed array
+    cout<<"reversed array is  "<<endl;
+    for(int i=0;i<size;i++)
+      cout<<a[i]<<"  ";
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
