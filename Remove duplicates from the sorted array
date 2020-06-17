@@ -1,0 +1,78 @@
+#include<iostream>
+using namespace std;
+
+int removeduplicates(int a[],int d)
+{
+     int temp[d];
+     int res=1;
+     
+     temp[0] = a[0]; //imp step
+     
+     for(int i=1;i<d;i++)
+     {
+         if(temp[res-1]!=a[i])
+         {
+             temp[res] = a[i];
+             res++;
+         }
+     }
+     
+     //res is size of output array
+     for(int i=0;i<res;i++)
+        a[i] = temp[i];
+}
+
+int main()
+{
+    int a[8] = {1,2,2,3,4,5,5,5};
+    int size = 0;
+    size = removeduplicates(a,8);
+    
+    cout<<endl;
+    cout<<"array after operation is "<<endl;
+    
+    for(int j=0;j<size;j++)
+        cout<<a[j]<<" ";
+    
+    return 0;
+}
+
+
+Time Complexity :  O(n)
+space complexity : O(n)  as we need auxillary space for the temp  array
+
+----------------------  best solution  -----------------
+#include<iostream>
+using namespace std;
+
+int removeduplicates(int a[],int d)
+{
+     int res=1;
+     for(int i=1;i<d;i++)
+     {
+         if(a[i]!=a[res-1])
+         {
+             a[res]=a[i];
+             res++;
+         }
+     }
+     return res;
+}
+
+int main()
+{
+    int a[6] = {10,20,20,30,30,30};
+    int size = 6;
+    size = removeduplicates(a,6);
+    
+    cout<<endl;
+    cout<<"array after operation is "<<endl;
+    
+    for(int j=0;j<size;j++)
+        cout<<a[j]<<" ";
+    
+    return 0;
+}
+
+Time complexity : O(1)
+Space complexity : O(1)
