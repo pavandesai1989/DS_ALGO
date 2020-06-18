@@ -1,0 +1,27 @@
+If prices are sorted in decreasing order, then we wont get any profit.
+When the stock goes down and reaches bottom buy it and when it increases and raches peak, sell it.
+
+----------------------- efficient solution --------------------------------------------------------
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+
+int MaximumProfit(int a[],int d)
+{
+    int profit=0;
+    for(int i=1;i<d;i++)
+    {
+        if(a[i]>a[i-1])
+          profit = profit + (a[i]-a[i-1]);
+    }
+    return profit;
+}
+
+int main()
+{
+    int a[5] = {1,5,3,8,12};
+    cout<<MaximumProfit(a,5)<<endl;
+    
+    return 0;
+}
