@@ -1,0 +1,125 @@
+If array is sorted in increasing or decreasing order, the amount of water collected is zero. because we dont have anything to support 
+so that water will be collected.
+
+--------------------- naive solution -------------------------------------------
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int GetWater(int a[],int n)
+{
+    int res=0;
+    //we cannot store water at end bars as they act as supports
+    for(int i=1;i<n-1;i++)
+    {
+        int lmax=a[i]; //vimp
+        //find the left Max
+        for(int j=0;j<i;j++)
+           lmax = max(lmax,a[j]);
+           
+        //find the right max 
+        int rmax=a[i];
+        for(int k=i+1;k<n;k++)
+           rmax = max(rmax,a[k]);
+           
+        res = res + min(lmax,rmax) - a[i];
+    }
+    return res;
+}
+
+int main()
+{
+    int a[5] = {3,0,1,2,5};
+    cout<<GetWater(a,5)<<endl;
+    
+    return 0;
+}
+
+Time complexity : O(N*N)
+
+------------------------Pavan Effcient soultion check ----------------------------------------------
+int GetWater(int a[],int n)
+{
+    int res=0;
+    int min=std::min(a[0],a[n-1]);
+    
+    for(int i=1;i<n-1;i++)
+    {
+        if(a[i]<a[0] && a[i]<a[n-1])
+           res = res + min - a[i];
+    }
+    return res;
+}
+
+---------------------------- Efficient solution GFG -------------------------------------
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int GetWater(int a[],int n)
+{
+     int res=0;
+     int lmax[n],rmax[n];
+     
+     lmax[0]=a[0];
+     for(int i=1;i<n;i++)
+        lmax[i] = max(a[i],lmax[i-1]);
+        
+     rmax[n-1] = a[n-1];
+     for(int i=n-2;i>=0;i--)
+        rmax[i] = max(a[i],rmax[i+1]);
+        
+      for(int i=1;i<n-1;i++)
+        res = res + min(lmax[i],rmax[i]) - a[i];
+        
+    return res;
+}
+
+int main()
+{
+    int a[5] = {5,0,6,2,3};
+    cout<<GetWater(a,5)<<endl;
+    
+    return 0;
+}
+
+Time : o(n)
+
+answer = 5 + 0 + 1
+
+min(5,6)-0 = 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
