@@ -38,6 +38,8 @@ space: O(1)
 using namespace std;
 
 //find the max diff a[j]-a[i] such that j>i   vvvimp
+//we are considering every element as array j
+
 int MaxDifference(int a[],int d)
 {
     int res = a[1]-a[0];
