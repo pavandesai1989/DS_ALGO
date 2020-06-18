@@ -31,3 +31,55 @@ int main()
 
 Time : O(N*N)
 space: O(1)
+
+------------------------------- Efficient solution ---------------------------------------------
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+//find the max diff a[j]-a[i] such that j>i   vvvimp
+int MaxDifference(int a[],int d)
+{
+    int res = a[1]-a[0];
+    int min=a[0];
+    
+    for(int i=1;i<d;i++)
+    {
+        res = std::max(res,a[i]-min);
+        min = std::min(min,a[i]);
+    }
+    return res;
+}
+
+int main()
+{
+    int a[7] = {2,3,10,6,4,8,1};
+    cout<<MaxDifference(a,7)<<endl;
+    
+    return 0;
+}
+
+Time complexity : O(n)
+Space complexity : O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
