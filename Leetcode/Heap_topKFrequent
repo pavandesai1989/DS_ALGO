@@ -1,0 +1,37 @@
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<queue>
+using namespace std;
+
+struct mycompare
+{
+	bool operator()(pair<int, int> p1, pair<int, int> p2)
+	{
+		if (p1.second == p2.second)
+			return p1.first > p2.first;
+
+		return p1.second < p2.second; //frequency 
+	}
+};
+
+
+class Solution {
+public:
+	vector<int> topKFrequent(vector<int>& nums, int k)
+	{
+		vector<int> vec;
+		unordered_map<int, int> mymap;
+		for (int i = 0; i < nums.size(); i++)
+			mymap[nums[i]]++;
+
+		priority_queue<pair<int, int>, vector<pair<int, int>>, mycompare> pq(mymap.begin(), mymap.end());
+
+		for (int i = 1; i <= k; i++) {
+			vec.push_back(pq.top().first);
+			pq.pop();
+		}
+
+		return vec;
+	}
+};
