@@ -1,0 +1,190 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+
+void swap(int *x, int *y)
+{
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+class MinHeap
+{
+public:
+	int* pMinHeap;
+	int Capacity;
+	int Heap_size;
+
+public:
+	MinHeap(int capacity);
+	int Left(int x);
+	int Right(int x);
+	int Parent(int x);
+	void Insert(int x);
+	void MinHeapify(int x);
+	void DecreaseKey(int idx, int val);
+	void Delete(int idx);
+	void BuildHeap();
+
+	int GetMin()
+	{
+		if (!pMinHeap)  return 0;
+
+		return pMinHeap[0];
+	}
+
+	int ExtractMin(); //remove min ele from the heap 
+	~MinHeap();
+};
+
+
+void MinHeap::DecreaseKey(int idx, int val)
+{
+	if (Heap_size == 0)  return;
+	pMinHeap[idx] = val;
+
+	//similar logic to the insert function
+	while (idx != 0 && pMinHeap[Parent(idx)] > pMinHeap[idx])
+	{
+		swap(&pMinHeap[Parent(idx)], &pMinHeap[idx]);
+		idx = Parent(idx);
+	}
+}
+
+void MinHeap::MinHeapify(int x)
+{
+	int Lt = Left(x);
+	int Rt = Right(x);
+
+	int smallest = x;
+
+	if (Lt < Heap_size && pMinHeap[Lt] < pMinHeap[x])
+		smallest = Lt;
+
+	if (Rt < Heap_size && pMinHeap[Rt] < pMinHeap[smallest])
+		smallest = Rt;
+
+	if (smallest != x)
+	{
+		swap(&pMinHeap[x], &pMinHeap[smallest]);
+		MinHeapify(smallest);
+	}
+}
+
+int MinHeap::ExtractMin()
+{
+	if (Heap_size == 0) return INT_MAX;
+	else if (Heap_size == 1)
+	{
+		Heap_size--;
+		return pMinHeap[0];
+	}
+	else
+	{
+		swap(&pMinHeap[0],&pMinHeap[Heap_size-1]);
+		Heap_size--;
+		MinHeapify(0);
+		return pMinHeap[Heap_size];  //imp
+	}
+
+}
+
+MinHeap::MinHeap(int capacity)
+{
+	pMinHeap = new int[capacity];
+	this->Capacity = capacity;
+	Heap_size = 0;
+}
+
+
+MinHeap::~MinHeap()
+{
+	if (pMinHeap)
+		delete[]pMinHeap;
+	this->Capacity = 0;
+	Heap_size = 0;
+}
+
+
+int MinHeap::Left(int x)
+{
+	return (2 * x + 1);
+}
+
+int MinHeap::Right(int x)
+{
+	return (2 * x + 2);
+}
+
+
+int MinHeap::Parent(int x)
+{
+	return (x-1)/2;
+}
+
+
+void MinHeap::Insert(int x)
+{
+	//check the size and capacity
+	if (Capacity == Heap_size)
+	{
+		cout << "Heap is full " << endl;
+		return;
+	}
+
+	Heap_size++;
+	int i = Heap_size - 1;
+
+	pMinHeap[i] = x; //insert the element
+
+	////print heap
+	//cout << "heap is " << endl;
+	//for (int i = 0; i < Heap_size; i++)
+	//	cout << pMinHeap[i] << "  ";
+
+	//int y = pMinHeap[Parent(i)];
+	//int z = pMinHeap[i];
+
+	//check for the min heap property
+	while (i != 0 && (pMinHeap[Parent(i)] > pMinHeap[i]))
+	{
+		swap(&pMinHeap[Parent(i)],&pMinHeap[i]);
+		i = Parent(x);
+	}
+}
+
+
+void MinHeap::Delete(int idx)
+{
+	DecreaseKey(idx, INT_MIN);
+	ExtractMin();
+}
+
+void MinHeap::BuildHeap()
+{
+	//parent of last node 
+	for (int i = (Heap_size - 2) / 2; i >= 0; i--)
+		MinHeapify(i);
+}
+
+int main()
+{
+	MinHeap h(11);
+	h.Insert(3);
+	h.Insert(2);
+	h.Insert(1);
+	h.Insert(15);
+	h.Insert(5);
+	h.Insert(4);
+	h.Insert(45);
+	cout << h.ExtractMin() << " ";
+	cout << h.GetMin() << " ";
+	h.DecreaseKey(2, 1);
+	cout << h.GetMin();
+
+
+	return 0;
+}
+
