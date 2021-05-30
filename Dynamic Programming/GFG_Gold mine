@@ -1,0 +1,23 @@
+    int maxGold(int n, int m, vector<vector<int>> M)
+    {
+       for(int col=n-2;col>=0;col--)
+       {
+           for(int row = 0;row<m;row++)
+           {
+               int right = M[row][col+1];
+               int right_top = (row == 0)?0:M[row-1][col+1];
+               int right_down = (row == m-1)?0:M[row+1][col+1];
+               
+               M[row][col] = M[row] [col] + max(right,max(right_top,right_down));
+           }
+       }
+       
+       int res = M[0][0];
+       //ans is in 1st column
+       for(int i=1;i<m;i++)
+       {
+           res = max(res,M[i][0]);
+       }
+       
+       return res;
+    }
