@@ -1,0 +1,80 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+
+//recursive solution . Time complexity of O (2^n ) and space O(1)
+int maxprofit(int W,int wt[], int val[], int n)
+{
+	//base case
+	if (W == 0 || n == 0)  
+		return 0; //if wt is zero OR no of items are zero 
+
+	if (wt[n - 1] > W)  //we cant take in knapsack
+		return maxprofit(W,wt,val,n-1);  // items reduce by 1 and wt remains same
+	else
+	{
+		//2 cases take wt and ignore wt
+		return max( maxprofit(W,wt, val, n - 1),
+                              val[n - 1] + maxprofit(W - wt[n - 1],wt, val, n-1 ));  //imp n-1
+	}
+}
+
+
+//memoization    Time O( N*W)
+int maxprofit_Memoization(int idx,int wt[],int val[],int n,int W,vector<vector<int>> dp) // Not we calling from main with idx zero
+{
+	//base
+	if (idx >= n || W == 0)
+		return 0;
+
+	if (dp[idx][W] != -1)
+		return dp[idx][W];
+
+	if (wt[idx] > W)
+		return dp[idx][W] = maxprofit_Memoization(idx+1,wt,val,n,W,dp);
+	else
+	{
+		return dp[idx][W] = max(maxprofit_Memoization(idx+1, wt, val,n, W, dp),
+			                    val[idx] + maxprofit_Memoization(idx+1,wt,val,n,W-wt[idx],dp));
+	}
+}
+
+//Bottom Up
+int knapsack_BU(int W,int wt[],int val[],int n)   //from main we call with n not ZERO
+{
+	vector<vector<int>> dp(n+1,vector<int>(W+1));
+	int i, j;
+	for (i = 0; i <= n; i++)  //items rows . from 0 to size of wt/val
+	{
+		for (j = 0; j <= W; j++)  //weights columns   . from 0 to W value 
+		{
+			//base case 
+			if (i == 0 || j == 0)
+				dp[i][j] = 0;
+			else if (wt[i - 1] > j)  //ignore the item and move up row
+				dp[i][j] = dp[i - 1][j];
+			else
+			{
+				dp[i][j] = max(dp[i - 1][j],
+					           dp[i - 1][j - wt[i - 1]] + val[i-1]);
+			}
+		}
+	}
+	return dp[n][W];
+}
+
+int main()
+{
+	int val[] = { 60, 100, 120 };
+	int wt[] = { 10, 20, 30 };
+	int W = 50;
+	int n = sizeof(val) / sizeof(val[0]);
+	vector<vector<int>> dp(n + 1, vector<int>(W + 1, -1));
+
+	cout << knapsack_BU(W,wt,val,n) << endl;
+
+	return 0;
+}
