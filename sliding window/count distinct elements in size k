@@ -1,0 +1,30 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<unordered_map>
+
+using namespace std;
+
+void DistinctElements(int arr[], int size, int k)
+{
+	unordered_map<int, int> freq;
+	int distinct = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		freq[arr[i]]++;
+		if (freq[arr[i]] == 1)
+			distinct++;
+	}
+}
+
+
+int main()
+{
+	int arr[] = {1,2,1,3,4,3,3};
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	DistinctElements(arr, size, 4);
+
+	return 0;
+}
