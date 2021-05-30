@@ -1,0 +1,22 @@
+void InsertLastToFront(node*& head)
+{
+	if (head == nullptr)  return;
+
+	node* curr = head;
+	node* prev = nullptr;
+
+	while (curr->next != nullptr)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	//curr points to last node and prev points to second last node
+	//insert last node to begin of list
+
+	prev->next = nullptr;
+
+	node* newnode = new node(curr->data);
+	delete curr;
+	newnode->next = head;
+	head = newnode;
+}
