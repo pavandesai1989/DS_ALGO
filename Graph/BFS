@@ -1,0 +1,84 @@
+#include<iostream>
+#include<map>
+#include<list>
+#include<queue>
+
+using namespace std;
+
+template<typename T>
+class Graph {
+private:
+	map<T, list<T>> l;
+
+public:
+	void addedge(int x, int y)//assume bidirectional
+	{
+		l[x].push_back(y);
+		l[y].push_back(x);
+	}
+
+
+	void displayneighbours()
+	{
+		for (auto node_pair : l)
+		{
+			T node = node_pair.first;
+			cout << "neighbour of  " << node<< "  ";
+			list<T> neigh = node_pair.second;
+			for (auto ele : neigh)
+			{
+				cout << ele << ", ";
+			}
+			cout << endl;
+		}
+	}
+
+	void BFS(T src)
+	{
+		queue<T> q;
+		map<T, bool> visited; //map to keep track of visited nodes
+
+		q.push(src);
+		visited[src] = true;// mark this node as visited
+
+		while (!q.empty())
+		{
+			T node = q.front();
+			cout << node << "  ";
+			q.pop();
+
+			//find neigh of this nodes 
+			for (auto nbr : l[node])
+			{
+				if (!visited[nbr]) //if not visited add to queue 
+				{
+					q.push(nbr);
+					//mark this nei as visited
+					visited[nbr] = true;
+				}
+			}
+		}
+	}
+
+};
+
+
+int main()
+{
+	Graph<int>  g;
+
+	g.addedge(0, 1);
+	g.addedge(1, 2);
+	g.addedge(2, 3);
+	g.addedge(3, 4);
+	g.addedge(4, 5);
+	g.addedge(0,3);
+
+	g.displayneighbours();
+
+    cout << endl;
+
+	g.BFS(0);
+
+	return 0;
+}
