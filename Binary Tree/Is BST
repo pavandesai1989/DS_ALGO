@@ -1,0 +1,62 @@
+
+#include<iostream>
+using namespace std;
+
+class Node
+{
+public:
+	int data;
+	Node* left;
+	Node* right;
+
+public:
+	Node(int d) :data(d), left(nullptr), right(nullptr) {
+
+	}
+};
+
+
+bool IsBST(Node* node)
+{
+	if (node == NULL)return 1;
+
+	/* false if left is > than node */
+	if (node->left != NULL && node->left->data > node->data)
+		return 0;
+
+	/* false if right is < than node */
+	if (node->right != NULL && node->right->data < node->data)
+		return 0;
+
+	/* false if, recursively, the left or right is not a BST */
+	if (!IsBST(node->left) || !IsBST(node->right))
+		return 0;
+
+	/* passing all that, it's a BST */
+	return 1;
+}
+
+
+void Preorder(Node* root)
+{
+	if (root == NULL)  return;
+	cout << root->data << " ";
+	Preorder(root->left);
+	Preorder(root->right);
+}
+
+
+
+int main()
+{
+	int arr[] = { 1, 2, 3, 4, 5, 6, 7 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+
+	Node* root = NULL;
+
+	root = IsBST(arr, 0, n - 1);
+
+	Preorder(root);
+
+	return 0;
+}
