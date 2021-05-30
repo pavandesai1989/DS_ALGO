@@ -1,0 +1,76 @@
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<stack>
+using namespace std;
+
+class node
+{
+public:
+	int data;
+	node* left;
+	node* right;
+
+public:
+	node(int d) :data(d), left(nullptr), right(nullptr) {
+	}
+};
+
+void Inorder(node* root)
+{
+	if (root != nullptr)
+	{
+		Inorder(root->left);
+		cout << root->data << " ";
+		Inorder(root->right);
+	}
+}
+
+void ReverseLevelOrder(node* root) //Note push right child first in queue!!!!!!!!!!!
+{
+	if (root == nullptr)  return ;
+
+	queue<node*>  q;
+	stack<node*>  s;
+
+	q.push(root);
+
+	while (!q.empty())  //Note this condition
+	{
+		node* curr = q.front();
+		s.push(curr);
+
+		q.pop();
+
+		if (curr->right != nullptr)  q.push(curr->right);
+		if (curr->left != nullptr)  q.push(curr->left);
+	}
+
+	//print the stack
+	while (!s.empty())
+	{
+		cout << s.top()->data << " ";
+		s.pop();
+	}
+}
+
+int main()
+{
+	vector<int> vec;
+	node* root = new node(10);
+	root->left = new node(15);
+	root->right = new node(20);
+
+	root->left->left = new node(30);
+
+	root->right->left = new node(40);
+	root->right->right = new node(50);
+
+	root->right->left->left = new node(60);
+	root->right->left->right = new node(70);
+
+	ReverseLevelOrder(root);
+
+	return 0;
+}
+
