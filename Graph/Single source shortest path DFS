@@ -1,0 +1,99 @@
+
+#include<iostream>
+#include<map>
+#include<list>
+#include<queue>
+
+using namespace std;
+
+template<typename T>
+class Graph {
+private:
+	map<T, list<T>> l;
+
+public:
+	void addedge(int x, int y)//assume bidirectional
+	{
+		l[x].push_back(y);
+		l[y].push_back(x);
+	}
+
+	void BFS_Single_Source_Shortest_path(T src)
+	{
+		queue<T> q;
+		map<T,int> dist; //to store of node from the source
+		q.push(src);
+
+		//dist of all other nodes INT_Max
+		for (auto node_pair : l)  //since its map it gives pair
+		{
+			T node = node_pair.first; //get the node as we want to store its distance from source 
+			dist[node] = INT_MAX;
+		}
+		dist[src] = 0;
+
+		while (!q.empty())
+		{
+			T node = q.front();
+			q.pop();
+
+			//cout << node << "   ";
+
+			//find neigh of this nodes 
+			for (auto nbr:l[node])
+			{
+				if (dist[nbr] == INT_MAX) //this means we are visiting this node first time 
+				{
+					q.push(nbr);
+					//mark this nei as visited
+					dist[nbr] = dist[node]+1;  //child node = parent +1;
+				}
+			}
+		}
+
+		//dist to every node
+		for (auto node_pair : l)
+		{
+			T node = node_pair.first;
+			int d = dist[node];
+			cout << "Node " << node << " is a distance " << d << " from the source" << endl;
+		}
+	}
+
+
+	void display()
+	{
+		for (auto mypair : l)
+		{
+			T node = mypair.first;
+
+			cout << "node is " << node << "-->";
+			for (auto ele : l[node])
+			{
+				cout << ele<<",";
+			}
+			cout << endl;
+		}
+	}
+
+};
+
+
+int main()
+{
+	Graph<int>  g;
+
+	g.addedge(0, 1);
+	g.addedge(1, 2);
+	g.addedge(2, 3);
+	g.addedge(0, 3);
+	g.addedge(3, 4);
+	g.addedge(4, 5);
+
+	//g.display();
+	cout << endl;
+
+	g.BFS_Single_Source_Shortest_path(0);
+
+	return 0;
+}
