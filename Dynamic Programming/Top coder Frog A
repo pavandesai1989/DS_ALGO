@@ -1,0 +1,79 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+
+// striver solution Good
+int Mincost_TD(int arr[], int n, int idx,vector<int> dp)
+{
+	//base case
+	if (idx == n - 1)   return 0;
+	if (idx >= n) return INT_MAX;
+
+	int left;
+	int right = INT_MAX;
+
+	if (dp[idx]!=INT_MAX)
+		return dp[idx];
+
+	left = Mincost_TD(arr, n, idx + 1,dp) + abs(arr[idx+1]-arr[idx]);
+
+	if(idx+2<n)   //imp
+	    right = Mincost_TD(arr, n, idx + 2,dp) + abs(arr[idx+2]-arr[idx]);
+
+	return dp[idx] = min(left,right);
+}
+
+////top down 
+//int Mincost(int idx,int size, int arr[])
+//{
+//	//base case
+//	if (idx == size - 1)
+//		return 0;
+//
+//	if (dp[idx] != 0)
+//		return dp[idx];
+//
+//	int pos2,ans;
+//	pos2 = INT_MAX;
+//	ans = 0;
+//
+//	ans = Mincost(idx + 1,size,arr) + abs(arr[idx+1]-arr[idx]);
+//
+//	if (idx + 2 < size)
+//	{
+//		ans = min(ans,Mincost(idx + 2, size, arr) + abs(arr[idx + 2] - arr[idx]));
+//	}
+//
+//	return dp[idx] = ans;
+//}
+//
+//
+////bottom up
+//int MincostBU(int arr[], int size)
+//{
+//	vector<int> dp(size + 1, INT_MAX);
+//	dp[1] = 0;
+//	for (int i = 2; i <= size; i++)
+//	{
+//		int op1 = dp[i - 1] + abs(arr[i-1]-arr[i]);
+//		int op2 = (i==2) ? INT_MAX : ( dp[i - 2] + abs(arr[i-2]-arr[i]) );
+//
+//		dp[i] = min(op1,op2);
+//	}
+//
+//	return dp[size-1];
+//}
+
+
+
+int main()
+{
+	vector<int> dp(7, INT_MAX);
+	int arr[] = {30,10,60,10,60,50};
+	cout << Mincost_TD(arr,6,0,dp);
+
+	return 0;
+}
