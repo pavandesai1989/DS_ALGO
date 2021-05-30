@@ -1,0 +1,35 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+vector<int> dp(7, INT_MAX);
+int arr[] = { 10,30,40,50,20 };
+int k = 3;
+int n = 5;
+
+// striver solution Good
+int Mincost_TD(int idx)
+{
+	//base case
+	if (idx == n-1)   return 0;
+	else if (dp[idx] != INT_MAX)
+		return dp[idx];
+	else
+	{
+		int mini = INT_MAX;
+		for (int i = 1; i <=k; i++)  // we cannot exceed n
+		{
+			if(idx +i<n)
+			  mini = min(mini, Mincost_TD(idx+i) + abs(arr[idx+i] - arr[idx]));
+		}
+		return dp[idx] = mini;
+	}
+}
+
+int main()
+{
+	cout << Mincost_TD(0);
+
+	return 0;
+}
