@@ -1,0 +1,101 @@
+#include<iostream>
+#include<map>
+#include<list>
+#include<queue>
+
+using namespace std;
+
+template<typename T>
+class Graph {
+private:
+	map<T, list<T>> l;
+
+public:
+	void addedge(int x, int y)//assume bidirectional
+	{
+		l[x].push_back(y);
+		l[y].push_back(x);
+	}
+
+
+	void displayneighbours()
+	{
+		for (auto node_pair : l)
+		{
+			T node = node_pair.first;
+			cout << "neighbour of  " << node << "  ";
+			list<T> neigh = node_pair.second;
+			for (auto ele : neigh)
+			{
+				cout << ele << ", ";
+			}
+			cout << endl;
+		}
+	}
+
+
+	void DFS_helper(T src, map<T, bool> &visited)
+	{
+		cout << src << " "; //print the node
+		//mark the node visited
+		visited[src] = true;
+
+		//iterate through all neighbours of src and print
+		for (auto nbr : l[src])
+		{
+			if (!visited[nbr]) //if not visited 
+				DFS_helper(nbr, visited);
+		}
+	}
+
+	void DFS(T src)
+	{
+		//keep map tp track visited nodes
+		map<T, bool> visited;
+		int cnt = 1;
+
+		//mark all nodes as unvisited 
+		for (auto my_pair : l)
+		{
+			T node = my_pair.first;
+			visited[node] = false;
+		}
+
+		for (auto mmypair : l)
+		{
+			T node = mmypair.first;
+			if (!visited[node])
+			{
+				cout << "component " << cnt << "--->";
+				DFS_helper(node, visited);
+				cnt++;
+				cout << endl;
+			}
+		}
+	}
+};
+
+
+int main()
+{
+	Graph<int>  g;
+
+	g.addedge(0, 1);
+	g.addedge(1, 2);
+	g.addedge(2, 3);
+	g.addedge(0, 3);
+	g.addedge(0, 4);
+
+	g.addedge(5, 6);
+	g.addedge(6, 7);
+
+	g.addedge(8, 8);
+
+	g.displayneighbours();
+
+	cout << endl;
+
+	g.DFS(0);
+
+	return 0;
+}
