@@ -1,0 +1,25 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+
+using namespace std;
+
+
+class SeatManager {
+public:
+	priority_queue<int, vector<int>, greater<int>> MyReservation;
+	SeatManager(int n) {
+		for (int i = 1; i <= n; i++)
+			MyReservation.push(i);
+	}
+
+	int reserve() {
+		int reservedseat = MyReservation.top();
+		MyReservation.pop();
+		return reservedseat;
+	}
+
+	void unreserve(int seatNumber) {
+		MyReservation.push(seatNumber);
+	}
+};
