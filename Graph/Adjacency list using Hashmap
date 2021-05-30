@@ -1,0 +1,55 @@
+#include<iostream>
+#include<list>
+#include<string>
+#include<unordered_map>
+using namespace std;
+
+class Graph{
+
+private:
+	int V;
+	unordered_map<string, list<pair<string,int>> > l;
+
+public:
+	Graph(int V) {
+		this->V = V;
+	}
+
+	void addedge(string x,string y,bool bisbidirectional,int wt){
+		l[x].push_back(make_pair(y,wt));
+
+		if (bisbidirectional)
+			l[y].push_back(make_pair(x,wt));
+	}
+
+	void display()
+	{
+		for (auto mypair:l)
+		{
+			string city = mypair.first;
+			list<pair<string, int>> neighbours = mypair.second;
+
+			cout << "city is " << city << "-->";
+			for (auto ele : neighbours)
+			{
+				cout << ele.first << " "<< ele.second<<",";
+			}
+			cout << endl;
+		}
+	}
+};
+
+
+int main()
+{
+	Graph ob(4);
+
+	ob.addedge("A","B",true,20);
+	ob.addedge("B","D",true,40);
+	ob.addedge("A","C",true,10);
+	ob.addedge("C","D",true,40);
+	ob.addedge("A","D",false,50);
+
+	ob.display();
+	return 0;
+}
