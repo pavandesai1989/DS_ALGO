@@ -1,0 +1,75 @@
+
+#include<iostream>
+#include<queue>
+#include<vector>
+
+using namespace std;
+
+
+struct triplet
+{
+	int val;
+	int gidx;
+	int lidx;
+
+	triplet(int v, int g, int l)
+	{
+		val = v;
+		gidx = g;
+		lidx = l;
+	}
+};
+
+
+struct mycomp
+{
+	bool operator()(triplet t1,triplet t2)
+	{
+		return t1.val > t2.val;
+	}
+};
+
+vector<int> MergeKSortedArrays(vector<vector<int>> u)
+{
+	vector<int> res;
+
+	//create min heap and insert oth value of all vectors
+	priority_queue<triplet, vector<triplet>, mycomp> pq;
+
+	for (int i = 0; i < u.size(); i++)
+	{
+		triplet T(u[i][0], i, 0);
+		pq.push(T);
+	}
+
+	while (!pq.empty())
+	{
+		triplet T = pq.top();
+		res.push_back(T.val);
+
+		pq.pop();
+
+		int gi = T.gidx;
+		int li = T.lidx;
+
+		if (li + 1 < u[gi].size())
+		{
+			triplet U(u[gi][li+1],gi,li+1);
+			pq.push(U);
+		}
+	}
+
+	return res;
+}
+
+int main()
+{
+	vector<vector<int>>  v = { {1,2,3},{4,5,6},{7,8,9} };
+	vector<int> v1 = MergeKSortedArrays(v);
+
+	for (auto ele : v1)
+	{
+		cout << ele << "   ";
+	}
+	return 0;
+}
