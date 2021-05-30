@@ -1,0 +1,66 @@
+#include<iostream>
+#include<vector>
+#include<list>
+using namespace std;
+
+//vector<int> linearProbing(int hashSize, int arr[], int sizeOfArray)
+//{
+//	vector<int> vec;
+//	for (int i = 0; i < hashSize; i++)
+//		vec.push_back(-1);
+//
+//	for (int i = 0; i < sizeOfArray; i++)
+//	{
+//		int idx = arr[i] % hashSize;
+//		if (vec[idx] == -1)
+//		{
+//			vec[idx] = arr[i];
+//		}
+//		else
+//		{
+//			while (vec[idx] != -1)
+//			{
+//				idx += 1;
+//			}
+//			vec[idx] = arr[i];
+//		}
+//	}
+//	return vec;
+//}
+
+vector<int> linearProbing(int hashSize, int arr[], int sizeOfArray)
+{
+	vector<int> vec;
+	for (int i = 0; i < hashSize; i++)
+		vec.push_back(-1);
+
+	for (int i = 0; i < sizeOfArray; i++)
+	{
+		int idx = arr[i] % hashSize;
+		if (vec[idx] == -1)
+		{
+			vec[idx] = arr[i];
+		}
+		else
+		{
+			idx++;
+			idx = (idx >= hashSize) ? 0 : idx;
+			vec[idx] = arr[i];
+		}
+		
+	}
+	return vec;
+}
+
+
+
+int main()
+{
+	int arr[] = { 9,99,999,9999 };
+	vector<int> v = linearProbing(10, arr, 4);
+
+	for (auto ele : v)
+		cout << ele<<"   ";
+
+	return 0;
+}
