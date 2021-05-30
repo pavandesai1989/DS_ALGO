@@ -1,0 +1,34 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int dp[1000][1000] = {0,0};
+
+
+long long int count(int idx,int val,int arr[],int n)
+{
+	if (val == 0)  return 1;
+	if (idx >= n || val < 0)   return 0;
+
+	if (dp[idx][val] != 0)
+		return dp[idx][val];
+
+
+	int left = count(idx,val-arr[idx],arr,n);//consider the coin
+	int right = count(idx+1,val,arr,n);//dt consider coin
+
+	return dp[idx][val] = left + right;
+}
+
+
+int main()
+{
+	int arr[] = {1,2,3};
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+
+	cout << count(0,4,arr,size) << endl;
+
+	return 0;
+}
