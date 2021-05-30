@@ -1,0 +1,30 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+int MaxSubArraySum(vector<int> vec)
+{
+	int dp[100] = { 0 };
+	dp[0] = vec[0];
+	int max_so_far = dp[0];
+
+	for (int i = 1; i < vec.size(); i++)
+	{
+		dp[i] = dp[i - 1] + vec[i];
+		if (dp[i] < 0) dp[i] = 0;
+		max_so_far = max(max_so_far,dp[i]);
+	}
+
+	return max_so_far;
+}
+
+int main()
+{
+	vector<int> vec = {-2,1};
+
+	cout << MaxSubArraySum(vec) << endl;
+
+	return 0;
+}
