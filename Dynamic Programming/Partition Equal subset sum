@@ -1,0 +1,84 @@
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<vector>
+using namespace std;
+
+
+int dp[2000][2000];
+
+
+//Recursive 
+bool issubsetsum(int arr[], int N, int sum)
+{
+
+	if (N == 0 && sum != 0)   return 0;
+
+	if (sum == 0)  return true;
+
+	if (dp[N - 1][sum] != 0)
+		return dp[N - 1][sum];
+
+	//if last ele grater than sum ignore it
+	if (arr[N - 1] > sum)
+		return dp[N - 1][sum] = issubsetsum(arr, N - 1, sum);
+
+	//include OR exclude the element 
+	return (dp[N - 1][sum] = (issubsetsum(arr, N - 1, sum) || issubsetsum(arr, N - 1, sum - arr[N - 1])));
+}
+
+
+bool issubsetsum_BU(int arr[], int N, int sum)
+{
+	vector<int> dp1(sum+1,0);
+	vector<vector<int>> dp(N+1,dp1);
+
+	//if the sum is zero
+	for (int i = 0; i <= N; i++)
+		dp[i][0] = true;
+
+	//items zero
+	for (int j = 1; j <= sum; j++)    //note that starts from 1
+		dp[0][j] = false;
+
+	for (int i = 1; i <= N; i++) // number of items
+	{
+		for (int j = 1; j <= sum; j++)   // all sums from 0 to sum
+		{
+			//if last ele grater than sum ignore
+			if (arr[i - 1] > j)
+				dp[i][j] = dp[i - 1][j];
+			else if(j >= arr[i-1])
+			{
+				//include or exclude
+				dp[i][j] = dp[i - 1][j] || dp[i - 1][j - arr[i - 1]];
+			}
+		}
+	}
+	return dp[N][sum];
+}
+
+bool CanPartition(int arr[],int N)
+{
+	int sum = 0;
+	//if sum is negative return false 
+	for (int i = 0; i < N; i++)
+		sum += arr[i];
+
+	if (sum & 1) //if sum is negative 
+		return false;
+
+	return issubsetsum_BU(arr,N,sum/2);
+}
+
+
+
+
+int main()
+{
+	int arr[] = { 479, 758, 315, 472, 730, 101, 460, 619 };
+	memset(dp, 0, sizeof(dp));
+	cout << CanPartition(arr,8) << endl;
+	return 0;
+
+}
