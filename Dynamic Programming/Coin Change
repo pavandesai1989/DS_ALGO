@@ -1,0 +1,67 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+//Top down approach
+int MinCoinsTD(int n, int coins[], int size, int dp[])
+{
+	//base 
+	if (n == 0)   return 0;
+	int res = INT_MAX;
+	int subprob = INT_MAX;
+
+	//look up
+	if (dp[n] != 0)
+		return dp[n];
+
+	for (int i = 0; i < size; i++)
+	{
+		if (n - coins[i] >= 0)
+		{
+			subprob = MinCoinsTD(n - coins[i], coins, size, dp)+1;
+			res = min(res, subprob);
+		}
+	}
+	dp[n] = res;
+
+	return dp[n];
+}
+
+
+//bottom up
+int MinCoinsBU(int n, int coins[], int size)
+{
+	int dp[100] = { 0 };
+
+	//iterate over all N
+	for (int i = 1; i <= n; i++)
+	{
+		dp[i] = INT_MAX;
+		for (int j = 0; j < size; j++)
+		{
+			int temp = i - coins[j];
+			if ( temp >=0)
+			{
+				int subprob = dp[temp];
+				dp[i] = min(dp[i], subprob+1);
+			}
+		}
+	}
+	cout << "dp of " << n << dp[n] << endl;
+	return dp[n];
+}
+
+int main()
+{
+	int dp[100] = { 0 };
+	int value = 4;
+	int coins[] = {1,2};
+	int size = sizeof(coins) / sizeof(int);
+
+	cout << MinCoinsTD(value,coins,size,dp);
+
+	return 0;
+
+}
