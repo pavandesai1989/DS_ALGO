@@ -1,0 +1,48 @@
+
+int Ispalindrome(node* head, int ele)
+{
+	if (head == nullptr)
+		return false;
+
+	//find mid of the list
+	node* slow = head;
+	node* fast = head;
+
+	while (fast && fast->next)
+	{
+		slow = slow->next;
+		fast = fast->next;
+	}
+	//slow points to middle of the list
+	node* mid = nullptr;
+
+	if (fast != nullptr)
+		mid = slow->next;
+	else
+		mid = slow;
+
+	//reverse the second half of the list
+	node* next = nullptr;
+	node* prev = nullptr;
+
+	while (mid != nullptr)
+	{
+		mid->next = prev;
+		next = mid->next;
+		prev = mid;
+		mid = next;
+	}
+	//prev will point to the head of the reversed link list
+	fast = head;
+
+	while (prev != nullptr)
+	{
+		if (prev->data != fast->data)
+			return false;
+
+		prev = prev->next;
+		fast = fast->next;
+	}
+
+	return true;
+}
