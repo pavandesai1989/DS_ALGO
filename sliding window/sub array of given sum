@@ -1,0 +1,40 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+bool SubArrayOfGivenSum(int arr[], int size, int sum)
+{
+	int c_sum = 0;
+	int start = 0;
+	int i = 0;
+
+	int s = 0;
+	int e = 0;
+
+	for (i; i < size; i++)
+	{
+		if(c_sum < sum)
+		     c_sum += arr[i];
+		if (c_sum == sum) break;
+
+		if (c_sum > sum)
+		{
+			c_sum = c_sum - arr[start];
+			start++;
+			s = start;
+		}	
+		e = i;
+    }
+	return (c_sum == sum);
+}
+
+
+int main()
+{
+	int arr[] = {1,4,20,3,10,5};
+	int sum = 33;
+	int n = sizeof(arr) / sizeof(arr[0]);
+	cout << SubArrayOfGivenSum(arr, n, sum);
+	return 0;
+}
