@@ -1,0 +1,68 @@
+node* reverse(node* head)
+{
+	if (!head) return head;
+	node* next = nullptr;
+	node* prev = nullptr;
+	node* curr = head;
+
+	while (curr != nullptr)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	return prev;
+}
+
+
+node* AddUtil(node* first, node* second)
+{
+	if (!first && (!second))  return first;
+	int carry = 0;
+	node* res_head = nullptr;
+	node* curr = nullptr;
+
+	while (first != nullptr || second != nullptr || carry != 0)
+	{
+		int sum = 0;
+		if (first) sum = sum + first->data;
+		if (second)  sum = sum + second->data;
+
+		sum = sum + carry;
+		carry = (sum >= 10) ? 1 : 0;
+		sum = sum % 10;
+		if (!res_head)
+		{
+			res_head = new node(sum);
+			curr = res_head;
+		}
+		else
+		{
+			curr->next = new node(sum);
+			curr = curr->next;
+		}
+
+		if (first)  first = first->next;
+		if (second)  second = second->next;
+	}
+	return res_head;
+}
+
+node* AddNum(node* first, node* second)
+{
+	cout << endl << endl;
+	node* first_head = reverse(first);
+	cout << "reversed first num is " << endl;
+	printSinglyLL(first_head);
+
+	node* second_head = reverse(second);
+	cout << "reversed second num is " << endl;
+	printSinglyLL(second_head);
+
+	node* result = AddUtil(first_head, second_head);
+	cout << "sum is" << endl;
+	printSinglyLL(result);
+
+	return reverse(result);
+}
