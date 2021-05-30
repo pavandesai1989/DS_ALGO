@@ -1,0 +1,29 @@
+//my solution
+vector<int> smallerNumbersThanCurrent(vector<int>& nums)
+{
+	unordered_map<int, int> mymap;
+	for (int i = 0; i < nums.size(); i++)
+		mymap[nums[i]]++;
+
+	vector<int> res;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		int temp = 0;
+		for (auto ele = mymap.begin(); ele != mymap.end(); ele++)
+		{
+			if (ele->first != nums[i] && ele->first < nums[i])
+			{
+				if (ele->second > 1)
+				{
+					temp = temp + ele->second;
+				}
+				else
+					temp++;
+			}
+		}
+		res.push_back(temp);
+	}
+	return res;
+}
+
+//optimized
