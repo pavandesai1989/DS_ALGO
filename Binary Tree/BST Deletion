@@ -1,0 +1,74 @@
+#include<iostream>
+using namespace std;
+
+class Node
+{
+public:
+	int data;
+	Node* left;
+	Node* right;
+
+public:
+	Node(int d) :data(d), left(nullptr), right(nullptr) {
+
+	}
+};
+
+void Inorder(Node* root)
+{
+	if (root == NULL) return;
+
+	Inorder(root->left);
+	cout << root->data << " ";
+	Inorder(root->right);
+}
+
+//successor is the leftmost node of right child. closest higher value
+Node* GetSuccessor(Node* curr)
+{
+	curr = curr->right;
+
+	while (curr != NULL && curr->left != NULL)
+		curr = curr->left;
+
+	return curr;
+}
+
+// Return the root of the modified BST after deleting the node with value X
+Node *deleteNode(Node *root, int X)
+{
+	//search node to delete
+	if (root == NULL) return root;
+	if (X < root->data)
+		root->left = deleteNode(root->left, X);
+	else if (X > root->data)
+		root->right = deleteNode(root->right, X);
+	else
+	{
+		if (root->left == NULL)
+		{
+			Node* temp = root->right;
+			delete root;
+			return temp;
+		}
+		else if (root->right == NULL)
+		{
+			Node* temp = root->left;
+			delete root;
+			return temp;
+		}
+		else  //if both children are not NULL!
+		{
+			//Get the root value to replace with the closest higher value 
+			Node* successor = GetSuccessor(root);
+			root->data = successor->data;
+			root->right = deleteNode(root->right, successor->data);
+		}
+
+	}
+
+	return root;
+
+}
+
+
