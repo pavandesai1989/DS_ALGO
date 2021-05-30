@@ -1,0 +1,393 @@
+#include<iostream>
+using namespace std;
+
+//define node structure 
+class node
+{
+public:
+	int data;
+	node* next;
+
+public:
+	node(int d) :data(d), next(nullptr) {
+
+	}
+};
+
+//insert node at the begin of list
+void InsertAtBegin(node*& head, int val)
+{
+	node* temp = new node(val);
+	if (head == nullptr)
+	{
+		head = temp; //if empty list 
+		return;
+	}
+	temp->next = head; //make head point to the new node created
+	head = temp;
+}
+
+//insert at the end 
+void InsertAtEnd(node*&head, int val)
+{
+	if (head == nullptr)
+	{
+		head = new node(val);
+		return;
+	}
+	node* temp = head;
+	while (temp->next != nullptr) //locate last node
+	{
+		temp = temp->next;
+	}
+
+	temp->next = new node(val);
+}
+
+//delete node at the begin
+void DeleteAtBegin(node*& head)
+{
+	if (head == nullptr)  return;
+	node* temp = head;
+	head = head->next;
+	delete temp;
+}
+
+//delete Last node
+void DeleteAtEnd(node*& head)
+{
+	if (head == nullptr)  return;
+	node* temp = head;
+	node* prev = nullptr;
+
+	while (temp->next != nullptr)
+	{
+		prev = temp;
+		temp = temp->next;
+	}
+
+	prev->next = nullptr;
+	delete temp;
+}
+
+void printSinglyLL(node* head)
+{
+	node* temp = head;
+	while (temp != nullptr)
+	{
+		cout << temp->data << "-->";
+		temp = temp->next;
+	}
+}
+
+//insert at given position
+void insert(node*& head, int val, int pos)
+{
+	if (head == nullptr) return;
+	node* temp = head;
+	node* prev = nullptr;
+	int count = 1;
+
+	while (count < pos)
+	{
+		prev = temp;
+		temp = temp->next;
+		count++;
+	}
+
+	//insert at begin
+	node* newnode = new node(val);
+
+	prev->next = newnode;
+	newnode->next = temp;
+}
+
+
+//search in link list
+int SearchIterative(node* head, int ele)
+{
+	if (head == nullptr)  return -1;
+	node*temp = head;
+
+	while (temp != nullptr)
+	{
+		if (temp->data == ele)  return 1;
+		temp = temp->next;
+	}
+	return -1;
+}
+
+
+
+
+void InsertLastToFront(node*& head)
+{
+	if (head == nullptr)  return;
+
+	node* curr = head;
+	node* prev = nullptr;
+
+	while(curr->next!=nullptr)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	//curr points to last node and prev points to second last node
+	//insert last node to begin of list
+
+	prev->next = nullptr;
+
+	node* newnode = new node(curr->data);
+	delete curr;
+	newnode->next = head;
+	head = newnode;
+}
+
+void AddNumberToLinkList(node*& head)
+{
+	if (head == nullptr)  return;
+
+	node* next = nullptr;
+	node* prev = nullptr;
+	node* curr = head;
+
+	while (curr != nullptr)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	//prev will point to the head of the reversed link list 
+	node* newhead = prev;
+	head = prev;
+	int carry = 1;
+	int sum = 0;
+
+	node* temp = nullptr;
+
+	while (head != nullptr)
+	{
+		sum = carry + head->data;
+
+		carry = (sum >= 10) ? 1 : 0;
+
+		//update sum if its grater then 10
+		sum = sum % 10;
+
+		head->data = sum;
+
+		temp = head;
+		head = head->next;
+	}
+	// if some carry is still there, add a new node to
+// result list.
+	if (carry > 0)
+		temp->next = new node(carry);
+
+	head = newhead;
+}
+
+int Ispalindrome(node* head, int ele)
+{
+	if (head == nullptr)  
+		return false;
+
+	//find mid of the list
+	node* slow = head;
+	node* fast = head;
+
+	while (fast && fast->next)
+	{
+		slow = slow->next;
+		fast = fast->next;
+	}
+	//slow points to middle of the list
+	node* mid = nullptr;
+
+	if (fast != nullptr)
+		mid = slow->next;
+	else
+		mid = slow;
+
+	//reverse the second half of the list
+	node* next = nullptr;
+	node* prev = nullptr;
+
+	while (mid != nullptr)
+	{
+		mid->next = prev;
+		next = mid->next;
+		prev = mid;
+		mid = next;
+	}
+	//prev will point to the head of the reversed link list
+	fast = head;
+
+	while (prev != nullptr)
+	{
+		if (prev->data != fast->data)
+			return false;
+
+		prev = prev->next;
+		fast = fast->next;
+	}
+
+	return true;
+}
+
+
+node* MergeSortedList(node* head1, node* head2)
+{
+	if (!head1 && !head2)  return head1;
+
+	node* reshead = nullptr;
+	node* tail = nullptr;
+
+	//get the head of the resultant list 
+	if (head1 && head2 && head1->data <= head2->data)
+	{
+		reshead = head1;
+		tail = head1;
+		head1 = head1->next;
+	}
+	else if (head1->data >= head2->data)
+	{
+		reshead = head2;
+		tail = head2;
+		head2 = head2->next;
+	}
+	//if one of list is empty return the other list
+	if (!head1)
+	{
+		return head2;
+	}
+	else if (!head2)
+	{
+		return head1;
+	}
+
+	while (head1 || head2)
+	{
+		if (head1 && head2 && head1->data <= head2->data)
+		{
+			tail->next = head1;
+			tail = head1;
+			head1 = head1->next;			
+		}
+		else if(head2)
+		{
+			tail->next = head2;
+			tail = head2;
+			head2 = head2->next;			
+		}
+		else if (head1 == nullptr)
+		{
+			tail->next = head2;
+			head2 = head2->next;
+		}
+		else if (head2 == nullptr)
+		{
+			tail->next = head1;
+			head1 = head1->next;
+		}				
+	}
+
+	return reshead;
+}
+
+node* reverse(node* head)
+{
+	if (!head) return head;
+	node* next = nullptr;
+	node* prev = nullptr;
+	node* curr = head;
+
+	while (curr != nullptr)
+	{
+		next = curr->next;
+	    curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	return prev;
+}
+
+
+node* AddUtil(node* first, node* second)
+{
+	if (!first && (!second))  return first;
+	int carry = 0;
+	node* res_head = nullptr;
+	node* curr = nullptr;
+
+	while (first != nullptr || second != nullptr || carry != 0)
+	{
+		int sum = 0;
+		if (first) sum = sum + first->data;
+		if (second)  sum = sum + second->data;
+
+		sum = sum + carry;
+		carry = (sum >= 10)?1:0;
+		sum = sum % 10;
+		if (!res_head)
+		{
+			res_head = new node(sum);
+			curr = res_head;
+		}
+		else
+		{
+			curr->next = new node(sum);
+			curr = curr->next;
+		}
+		if (first)  first = first->next;
+		if (second)  second = second->next;
+	}
+	return res_head;
+}
+
+node* AddNum(node* first, node* second)
+{
+	cout << endl << endl;
+	node* first_head = reverse(first);
+	cout << "reversed first num is " << endl;
+	printSinglyLL(first_head);
+
+	node* second_head = reverse(second);
+	cout << "reversed second num is " << endl;
+	printSinglyLL(second_head);
+
+	node* result = AddUtil(first_head, second_head);
+	cout << "sum is" << endl;
+	printSinglyLL(result);
+
+	return reverse(result);
+}
+
+
+int main()
+{
+	node* first = nullptr;
+
+	InsertAtBegin(first,1);
+	InsertAtBegin(first,1);
+
+	cout << "first" << endl;
+	printSinglyLL(first);
+	cout << endl << endl;
+
+	node* second = nullptr;
+
+	InsertAtBegin(second,4);
+	InsertAtBegin(second,2);
+
+	cout << "second" << endl;
+	printSinglyLL(second);
+
+	node* res = MergeSortedList(first,second);
+
+	cout << "merged list " << endl;
+	printSinglyLL(res);
+
+	return 0;
+}
