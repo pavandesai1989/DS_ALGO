@@ -1,0 +1,42 @@
+#include<iostream>
+using namespace std;
+
+//Top down 
+int CountFriendsPairing(int N,int dp[])
+{
+	if (dp[N] != -1)
+		return dp[N];
+
+	if (N > 2)
+		return dp[N] = CountFriendsPairing(N - 1, dp) + (N - 1) * CountFriendsPairing(N-2,dp);
+	else
+		return dp[N] = N;
+
+}
+
+//bottom up
+int CountFriendsPairing(int N)
+{
+	int dp[1000];
+	memset(dp,-1,sizeof(dp));
+
+	for (int i = 0; i <= N; i++)
+	{
+		if (i > 2)
+			dp[i] = dp[i - 1] + (i - 1)* dp[i - 2];
+		else
+			dp[i] = i;
+	}
+
+	return dp[N];
+}
+
+int main()
+{
+	int dp[1000];
+	int N = 4;
+	memset(dp,-1,sizeof(dp));
+	cout << CountFriendsPairing(N) << endl;;
+
+	return 0;
+}
