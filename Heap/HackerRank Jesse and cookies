@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<queue>
+using namespace std;
+
+int cookies(int k, vector<int> A)
+{
+	if (!A.size()) return -1;
+	int res = 0;
+	int first = 0, second = 0;
+
+	//create min heap 
+	priority_queue<int, vector<int>, greater<int>> pq(A.begin(), A.end());
+	if (pq.size() < 2) return -1;
+
+	while (pq.top() < k)
+	{
+		first = pq.top();
+		pq.pop();
+
+		if (pq.empty())   return -1;
+
+		second = pq.top();
+		pq.pop();
+
+		int sweetness = first + (2 * second);
+		pq.push(sweetness);
+		res++;
+	}
+
+	return res;
+}
+
+int main()
+{
+	long long arr[] = { 4, 2, 7, 6, 9 };
+
+	long long size = sizeof(arr) / sizeof(arr[0]);
+
+	cout << minCost(arr, size) << endl;
+	return 0;
+}
