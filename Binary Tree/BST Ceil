@@ -1,0 +1,36 @@
+#include<iostream>
+using namespace std;
+
+class Node
+{
+public:
+	int data;
+	Node* left;
+	Node* right;
+
+public:
+	Node(int d) :data(d), left(nullptr), right(nullptr) {
+
+	}
+};
+
+
+Node* Ceil_BST(Node* root, int Key)  //check solution 
+{
+	Node* res = NULL;
+
+	while (root != NULL)
+	{
+		if (root->data == Key)
+			return root;
+		else if (root->data < Key)
+			root = root->right;
+		else
+		{
+			res = root;
+			root = root->left;
+		}
+	}
+
+	return root;
+}
