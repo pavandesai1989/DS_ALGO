@@ -1,0 +1,38 @@
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+       class Node 
+        { 
+        public:
+            int data;
+            Node *next;
+            Node(int data) 
+            {
+               this->data = data;
+              this->next = NULL;
+            }
+        };
+
+********************************* TWO POINTER APPROACH********************************/
+
+//note if the link list is even as below 
+1 2 3 4 
+using below code middle will be the node 3 
+
+if we wna to print the middle node as 2 then end check will be as follows
+ while( slow && fast && fast->next!=NULL && fast->next->next!=NULL)
+
+Node *findMiddle(Node *head) 
+{
+    Node* slow = head;
+    Node* fast = head;
+    
+    while( slow && fast && fast->next!=NULL && fast->next!=NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    return slow;
+}
