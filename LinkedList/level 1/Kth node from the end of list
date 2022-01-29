@@ -13,5 +13,5 @@ node *findKthFromLast(node *head, int k)
         fast = fast->next;
     }
     
-    return slow;
+    return slow; 
 }
