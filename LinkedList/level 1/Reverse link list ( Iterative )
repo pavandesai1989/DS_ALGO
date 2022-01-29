@@ -1,0 +1,43 @@
+/****************************************************************
+
+    Following is the class structure of the LinkedListNode class:
+
+    template <typename T>
+    class LinkedListNode
+    {
+    public:
+        T data;
+        LinkedListNode<T> *next;
+        LinkedListNode(T data)
+        {
+            this->data = data;
+            this->next = NULL;
+        }
+    };
+
+*****************************************************************/
+
+LinkedListNode<int> *reverseLinkedList(LinkedListNode<int> *head) 
+{
+   LinkedListNode<int>* res = head;
+   LinkedListNode<int>* C = head;
+   LinkedListNode<int>* N =NULL;
+   LinkedListNode<int>* P = NULL;
+   
+   while(C!=NULL)
+   {
+       //store the next addrress
+       N = C->next;
+       //make cuur points to the previuos
+       C->next = P;
+       
+       //update P and C
+       P = C;
+       C = N;
+   }
+    
+    res = P;
+    
+    return res;  
+
+}
