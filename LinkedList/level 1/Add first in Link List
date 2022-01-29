@@ -191,7 +191,7 @@ int main()
         else if(s=="size"){
             if(l1.head!=NULL){
                  cout << l1.size() << endl;
-            }
+            }  
         }
         cin>>s;
     }
