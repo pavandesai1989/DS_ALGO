@@ -89,6 +89,6 @@ Node<int>* sortTwoLists(Node<int>* first, Node<int>* second)
         f = f->next;
     }
     
-    return res;
+    return res; 
 }
 
