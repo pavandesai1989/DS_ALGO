@@ -30,7 +30,7 @@ int getAt(int p)
 {
 
     if( p<0 || p>=size_)
-    {
+    { 
         cout<<"Invalid arguments"<<endl;
         return -1;
     }
