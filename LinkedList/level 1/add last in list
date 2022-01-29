@@ -74,7 +74,7 @@ public:
 
   int main() {
 
-    
+     
     string str;
 linked_list l;
     while (true) {
