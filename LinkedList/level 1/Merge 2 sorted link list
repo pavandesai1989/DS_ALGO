@@ -1,0 +1,94 @@
+/************************************************************
+
+    Following is the linked list node structure.
+    
+    template <typename T>
+    class Node {
+        public:
+        T data;
+        Node* next;
+
+        Node(T data) {
+            next = NULL;
+            this->data = data;
+        }
+
+        ~Node() {
+            if (next != NULL) {
+                delete next;
+            }
+        }
+    };
+
+************************************************************/
+
+void insertatend(Node<int>*& head,int data)
+{
+    if(!head)
+    {
+        head = new Node<int>(data);
+        return;
+    }
+    else
+    {
+        Node<int>* temp = head;
+        while(temp->next!=NULL)
+            temp = temp->next;
+        
+        temp->next = new Node<int>(data);
+    }
+}
+
+Node<int>* sortTwoLists(Node<int>* first, Node<int>* second)
+{
+    Node<int>* res = NULL;
+    Node<int>* f = first;
+    Node<int>* s = second;
+    
+    if(first == NULL)
+        return second;
+    
+    if(second == NULL)
+        return first;
+    
+    //create res node
+    if(s && f && f->data <= s->data)
+    {
+        insertatend(res,f->data);
+        f = f->next;
+    }
+    else if(s && f)
+    {
+        insertatend(res,s->data);
+        s = s->next;
+    }
+    
+    while( s && f) //unless both node exists compare and build res
+    {
+        if(f->data <= s->data)
+        {
+             insertatend(res,f->data);
+            f = f->next;
+        }
+        else
+        {
+             insertatend(res,s->data);
+            s = s->next;
+        }
+    }
+    
+    while(s!=NULL)
+    {
+         insertatend(res,s->data);
+        s = s->next;
+    }
+    
+    while(f!=NULL)
+    {
+        insertatend(res,f->data);
+        f = f->next;
+    }
+    
+    return res;
+}
+
