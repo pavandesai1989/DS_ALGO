@@ -79,7 +79,7 @@ int main() {
       break;
     }
     else if (str[0] == 'a') {
-      string ss = str.substr(8, 2);
+      string ss = str.substr(8, 2); 
       int n = stoi(ss);
       l.addLast( n);
 
