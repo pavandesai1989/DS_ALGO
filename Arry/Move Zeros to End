@@ -1,0 +1,18 @@
+Link to the Problem:
+https://www.codingninjas.com/codestudio/problems/interview-shuriken-41-move-zeroes-to-end_240143
+
+
+
+
+void pushZerosAtEnd(vector<int> &arr) 
+{
+	int count=0; //count for number of non zero eles
+    for(int i=0;i<arr.size();i++)
+    {
+        if(arr[i]!=0)
+        {
+            swap(arr[i],arr[count]);
+            count++;
+        }
+    }
+}
